@@ -1,6 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
+const { calcEmaDay, calcSmaDay } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -27,44 +28,10 @@ function getBinanceData(startTime, endTime, limit, symbol) {
 
 /*
  TODO: Goals for tomorrow
- Clean up calculateEma
  Add indicators that fire off when the indicators cross.
 */
 
 function calculateEma(values) {
-    function calcEma(period, previous, value) {
-        return (((value - previous) * (2/(period+1)) + previous));
-    }
-
-    function calcEmaDay(index, period, previousEma, close) {
-        let returnValue = previousEma;
-
-        if (index < period) {
-            returnValue += close;
-            if (index === (period - 1)) {
-                returnValue = returnValue / period;
-            }
-        } else {
-            returnValue = calcEma(period, returnValue, close);
-        }
-
-        return returnValue;
-    }
-
-    function calcSmaDay(index, size, period, previousSma, close) {
-        let returnValue = previousSma;
-
-        if (index >= (size - period)) {
-            returnValue += close;
-        }
-
-        if (index === (size - 1)) {
-            returnValue = returnValue / period;
-        }
-
-        return returnValue;
-    }
-
     let ema200 = ema100 = ema50 = ema20 = ema10 = ema5 = 0;
     let sma200 = sma100 = sma50 = sma20 = sma10 = sma5 = 0;
 
