@@ -49,30 +49,30 @@ function calculateEma(values) {
         return returnValue;
     }
 
-    let day200 = 0;
-    let day100 = 0;
-    let day50 = 0;
-    let day20 = 0;
-    let day10 = 0;
-    let day5 = 0;
+    let ema200 = 0;
+    let ema100 = 0;
+    let ema50 = 0;
+    let ema20 = 0;
+    let ema10 = 0;
+    let ema5 = 0;
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
-        day5 = calcEmaDay(index, 5, day5, floatValue);
-        day10 = calcEmaDay(index, 10, day10, floatValue);
-        day20 = calcEmaDay(index, 20, day20, floatValue);
-        day50 = calcEmaDay(index, 50, day50, floatValue);
-        day100 = calcEmaDay(index, 100, day100, floatValue);
-        day200 = calcEmaDay(index, 200, day200, floatValue);
+        ema5 = calcEmaDay(index, 5, ema5, floatValue);
+        ema10 = calcEmaDay(index, 10, ema10, floatValue);
+        ema20 = calcEmaDay(index, 20, ema20, floatValue);
+        ema50 = calcEmaDay(index, 50, ema50, floatValue);
+        ema100 = calcEmaDay(index, 100, ema100, floatValue);
+        ema200 = calcEmaDay(index, 200, ema200, floatValue);
     })
 
     return {
-        5: day5,
-        10: day10,
-        20: day20,
-        50: day50,
-        100: day100,
-        200: day200
+        5: ema5,
+        10: ema10,
+        20: ema20,
+        50: ema50,
+        100: ema100,
+        200: ema200
     }
 }
 
