@@ -26,10 +26,9 @@ function getBinanceData(startTime, endTime, limit, symbol) {
     });
 };
 
-/*
- TODO: Goals for tomorrow
- Add indicators that fire off when the indicators cross.
-*/
+/*function checkCrossOvers(day5, day10, day20, day50, day100, day200, type) {
+
+}*/
 
 function calculateEma(values) {
     let ema200 = ema100 = ema50 = ema20 = ema10 = ema5 = 0;
@@ -59,10 +58,9 @@ function calculateEma(values) {
     }
 }
 
-trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin))); // Eventually bump this up to 200 data points
+trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
 
 Promise.all(promises).then((values) => {
-    console.log(values);
     const emas = values.map(value => calculateEma(value));
     console.log(emas);
 });
