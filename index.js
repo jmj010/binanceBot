@@ -38,6 +38,7 @@ function calculateEma(values) {
 
     function calcEmaDay(index, period, previousEma, close) {
         let returnValue = previousEma;
+
         if (index < period) {
             returnValue += close;
             if (index === (period - 1)) {
@@ -46,33 +47,48 @@ function calculateEma(values) {
         } else {
             returnValue = calcEma(period, returnValue, close);
         }
+
         return returnValue;
     }
 
-    let ema200 = 0;
-    let ema100 = 0;
-    let ema50 = 0;
-    let ema20 = 0;
-    let ema10 = 0;
-    let ema5 = 0;
+    function calcSmaDay(index, size, period, previousSma, close) {
+        let returnValue = previousSma;
+
+        if (index >= (size - period)) {
+            returnValue += close;
+        }
+
+        if (index === (size - 1)) {
+            returnValue = returnValue / period;
+        }
+
+        return returnValue;
+    }
+
+    let ema200 = ema100 = ema50 = ema20 = ema10 = ema5 = 0;
+    let sma200 = sma100 = sma50 = sma20 = sma10 = sma5 = 0;
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
+
         ema5 = calcEmaDay(index, 5, ema5, floatValue);
         ema10 = calcEmaDay(index, 10, ema10, floatValue);
         ema20 = calcEmaDay(index, 20, ema20, floatValue);
         ema50 = calcEmaDay(index, 50, ema50, floatValue);
         ema100 = calcEmaDay(index, 100, ema100, floatValue);
         ema200 = calcEmaDay(index, 200, ema200, floatValue);
+
+        sma5 = calcSmaDay(index, values.length, 5, sma5, floatValue);
+        sma10 = calcSmaDay(index, values.length, 10, sma10, floatValue);
+        sma20 = calcSmaDay(index, values.length, 20, sma20, floatValue);
+        sma50 = calcSmaDay(index, values.length, 50, sma50, floatValue);
+        sma100 = calcSmaDay(index, values.length, 100, sma100, floatValue);
+        sma200 = calcSmaDay(index, values.length, 200, sma200, floatValue);
     })
 
     return {
-        5: ema5,
-        10: ema10,
-        20: ema20,
-        50: ema50,
-        100: ema100,
-        200: ema200
+        ema5, ema10, ema20, ema50, ema100, ema200,
+        sma5, sma10, sma20, sma50, sma100, sma200,
     }
 }
 
