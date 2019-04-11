@@ -36,6 +36,19 @@ function calculateEma(values) {
         return (((value - previous) * (2/(period+1)) + previous));
     }
 
+    function calcEmaDay(index, period, previousEma, close) {
+        let returnValue = previousEma;
+        if (index < period) {
+            returnValue += close;
+            if (index === (period - 1)) {
+                returnValue = returnValue / period;
+            }
+        } else {
+            returnValue = calcEma(period, returnValue, close);
+        }
+        return returnValue;
+    }
+
     let day200 = 0;
     let day100 = 0;
     let day50 = 0;
@@ -45,76 +58,12 @@ function calculateEma(values) {
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
-        if (index <= 5) {
-            if (index === 5) {
-                day10 += day5 + floatValue;
-                day5 = day5 / 5;
-                day5 = calcEma(5, day5, floatValue);
-            } else {
-                day5 += floatValue; // close value
-            }
-        } else if(index <= 10) {
-            day5 = calcEma(5, day5, floatValue);
-            if (index === 10) {
-                day20 += day10 + floatValue;
-                day10 = day10 / 10;
-                day10 = calcEma(10, day10, floatValue);
-            } else {
-                day10 += floatValue; // close value
-            }
-        } else if(index <= 20) {
-            day5 = calcEma(5, day5, floatValue);
-            day10 = calcEma(10, day10, floatValue);
-            if (index === 20) {
-                day50 += day20 + floatValue;
-                day20 = day20 / 20;
-                day20 = calcEma(20, day20, floatValue);
-            } else {
-                day20 += floatValue; // close value
-            }
-        } else if(index <= 50) {
-            day5 = calcEma(5, day5, floatValue);
-            day10 = calcEma(10, day10, floatValue);
-            day20 = calcEma(20, day20, floatValue);
-            if (index === 50) {
-                day100 += day50 + floatValue;
-                day50 = day50 / 50;
-                day50 = calcEma(50, day50, floatValue);
-            } else {
-                day50 += floatValue; // close value
-            }
-        } else if(index <= 100) {
-            day5 = calcEma(5, day5, floatValue);
-            day10 = calcEma(10, day10, floatValue);
-            day20 = calcEma(20, day20, floatValue);
-            day50 = calcEma(50, day50, floatValue);
-            if (index === 100) {
-                day200 += day100 + floatValue;
-                day100 = day100 / 100;
-                day100 = calcEma(100, day100, floatValue);
-            } else {
-                day100 += floatValue; // close value
-            }
-        } else if(index <= 200) {
-            day5 = calcEma(5, day5, floatValue);
-            day10 = calcEma(10, day10, floatValue);
-            day20 = calcEma(20, day20, floatValue);
-            day50 = calcEma(50, day50, floatValue);
-            day100 = calcEma(100, day100, floatValue);
-            if (index === 200) {
-                day200 = day200 / 200;
-                day200 = calcEma(200, day200, floatValue);
-            } else {
-                day200 += floatValue; // close value
-            }
-        } else {
-            day5 = calcEma(5, day5, floatValue);
-            day10 = calcEma(10, day10, floatValue);
-            day20 = calcEma(20, day20, floatValue);
-            day50 = calcEma(50, day50, floatValue);
-            day100 = calcEma(100, day100, floatValue);
-            day200 = calcEma(200, day200, floatValue);
-        }
+        day5 = calcEmaDay(index, 5, day5, floatValue);
+        day10 = calcEmaDay(index, 10, day10, floatValue);
+        day20 = calcEmaDay(index, 20, day20, floatValue);
+        day50 = calcEmaDay(index, 50, day50, floatValue);
+        day100 = calcEmaDay(index, 100, day100, floatValue);
+        day200 = calcEmaDay(index, 200, day200, floatValue);
     })
 
     return {
