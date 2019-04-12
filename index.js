@@ -1,7 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
-const { calcEmaDay, calcSmaDay } = require('./functions');
+const { calcEmaDay, calcSmaDay, calcRsi } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -33,6 +33,7 @@ function getBinanceData(startTime, endTime, limit, symbol) {
 function calculateEma(values) {
     let ema200 = ema100 = ema50 = ema20 = ema10 = ema5 = 0;
     let sma200 = sma100 = sma50 = sma20 = sma10 = sma5 = 0;
+    let rsiGain = rsiLoss = rsi = 0;
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
@@ -50,11 +51,21 @@ function calculateEma(values) {
         sma50 = calcSmaDay(index, values.length, 50, sma50, floatValue);
         sma100 = calcSmaDay(index, values.length, 100, sma100, floatValue);
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatValue);
+
+        // Ignore rsi readings up to n period
+        if (index !== 0) {
+            const result = calcRsi(index, 14, rsiGain, rsiLoss, parseFloat(values[index-1][4]), floatValue);
+            rsiGain = result.rsiGain;
+            rsiLoss = result.rsiLoss;
+            rsi = result.rsi;
+        }
+        console.log(value[6]);
     })
 
     return {
         ema5, ema10, ema20, ema50, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
+        rsi,
     }
 }
 

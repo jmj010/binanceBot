@@ -36,38 +36,29 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     let rsiLoss = previousLosses;
     let rsi = 0;
 
-    if (index <= period) {
-        if (newClose > previousClose) {
-            rsiGain += (newClose - previousClose);
-        } else if (newClose < previousClose) {
-            rsiLoss += (previousClose - newClose); 
-        }
-
-        if (index === period) {
-            rsiGain = rsiGain / period;
-            rsiLoss = rsiLoss / period;
-            rsi = rsiGain / rsiLoss;
-            rsi = (100 - (100 / (1 + rsi)));
-        }
-    } else {
+    if (index > period) {
         rsiGain = (rsiGain * (period - 1));
         rsiLoss = (rsiLoss * (period - 1));
+    }
 
-        if (newClose > previousClose) {
-            rsiGain += (newClose - previousClose);
-        } else if (newClose < previousClose) {
-            rsiLoss += (previousClose - newClose); 
-        }
+    if (newClose > previousClose) {
+        rsiGain += (newClose - previousClose);
+    } else if (newClose < previousClose) {
+        rsiLoss += (previousClose - newClose); 
+    }
 
+    if (index >= period ) {
         rsiGain = rsiGain / period;
         rsiLoss = rsiLoss / period;
         rsi = rsiGain / rsiLoss;
         rsi = (100 - (100 / (1 + rsi)));
     }
+    console.log(rsi);
     return { rsiGain, rsiLoss, rsi };
 }
 
 module.exports = {
     calcEmaDay,
-    calcSmaDay
+    calcSmaDay,
+    calcRsi,
 }
