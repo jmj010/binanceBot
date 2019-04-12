@@ -53,7 +53,7 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
         rsi = rsiGain / rsiLoss;
         rsi = (100 - (100 / (1 + rsi)));
     }
-    console.log(rsi);
+
     return { rsiGain, rsiLoss, rsi };
 }
 
