@@ -58,6 +58,22 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
+// CalcMacd
+// CalcBollingerBands
+// EmaRibbons - 5 different emas chosen
+
+// Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.
+// Within the cloud it is dicey. Cool thing is that compared to other lagging indicators ichimoku cloud tells support/resistance
+// levels projected into the future.
+
+// Awesome oscillator - trend confirmation
+
+// Best volume indicators
+
+// Chaikin money flow
+// OBV, On balance volume?
+// Maybe klinger oscillator? Doesnt seem as useful
+
 module.exports = {
     calcEmaDay,
     calcSmaDay,
