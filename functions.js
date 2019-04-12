@@ -31,6 +31,42 @@ function calcSmaDay(index, size, period, previousSma, close) {
     return returnValue;
 }
 
+function calcRsi(index, period, previousGains, previousLosses, previousClose, newClose) {
+    let rsiGain = previousGains;
+    let rsiLoss = previousLosses;
+    let rsi = 0;
+
+    if (index <= period) {
+        if (newClose > previousClose) {
+            rsiGain += (newClose - previousClose);
+        } else if (newClose < previousClose) {
+            rsiLoss += (previousClose - newClose); 
+        }
+
+        if (index === period) {
+            rsiGain = rsiGain / period;
+            rsiLoss = rsiLoss / period;
+            rsi = rsiGain / rsiLoss;
+            rsi = (100 - (100 / (1 + rsi)));
+        }
+    } else {
+        rsiGain = (rsiGain * (period - 1));
+        rsiLoss = (rsiLoss * (period - 1));
+
+        if (newClose > previousClose) {
+            rsiGain += (newClose - previousClose);
+        } else if (newClose < previousClose) {
+            rsiLoss += (previousClose - newClose); 
+        }
+
+        rsiGain = rsiGain / period;
+        rsiLoss = rsiLoss / period;
+        rsi = rsiGain / rsiLoss;
+        rsi = (100 - (100 / (1 + rsi)));
+    }
+    return { rsiGain, rsiLoss, rsi };
+}
+
 module.exports = {
     calcEmaDay,
     calcSmaDay
