@@ -59,7 +59,6 @@ function calculateEma(values) {
             rsiLoss = result.rsiLoss;
             rsi = result.rsi;
         }
-        console.log(value[6]);
     })
 
     return {
