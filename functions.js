@@ -59,7 +59,7 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
 }
 
 // CalcMacd
-// CalcBollingerBands
+// CalcBollingerBands - sma with 2 standard deviations above and below.
 // EmaRibbons - 5 different emas chosen
 
 // Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.

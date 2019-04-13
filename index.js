@@ -31,9 +31,10 @@ function getBinanceData(startTime, endTime, limit, symbol) {
 }*/
 
 function calculateEma(values) {
-    let ema200 = ema100 = ema50 = ema20 = ema10 = ema5 = 0;
-    let sma200 = sma100 = sma50 = sma20 = sma10 = sma5 = 0;
+    let ema5 = ema10 = ema20 = ema50 = ema100 = ema200 = 0;
+    let sma5 = sma10 = sma20 = sma50 = sma100 = sma200 = 0;
     let rsiGain = rsiLoss = rsi = 0;
+    let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
@@ -44,6 +45,11 @@ function calculateEma(values) {
         ema50 = calcEmaDay(index, 50, ema50, floatValue);
         ema100 = calcEmaDay(index, 100, ema100, floatValue);
         ema200 = calcEmaDay(index, 200, ema200, floatValue);
+
+        ema9 = calcEmaDay(index, 9, ema9, floatValue);
+        ema12 = calcEmaDay(index, 12, ema12, floatValue);
+        ema26 = calcEmaDay(index, 26, ema26, floatValue);
+        macd = ema12 - ema26;
 
         sma5 = calcSmaDay(index, values.length, 5, sma5, floatValue);
         sma10 = calcSmaDay(index, values.length, 10, sma10, floatValue);
@@ -64,7 +70,7 @@ function calculateEma(values) {
     return {
         ema5, ema10, ema20, ema50, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
-        rsi,
+        rsi, macd, macdSignal: ema9,
     }
 }
 
