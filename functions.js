@@ -58,7 +58,6 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
-// CalcMacd
 // CalcBollingerBands - sma with 2 standard deviations above and below.
 // EmaRibbons - 5 different emas chosen
 
@@ -70,7 +69,7 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
 
 // Best volume indicators
 
-// Chaikin money flow
+// Chaikin money flow. Good to get indicators
 // OBV, On balance volume?
 // Maybe klinger oscillator? Doesnt seem as useful
 
