@@ -35,11 +35,13 @@ function calculateEma(values) {
     let sma5 = sma10 = sma20 = sma50 = sma100 = sma200 = 0;
     let rsiGain = rsiLoss = rsi = 0;
     let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
+    let sma5hl = sma34hl = 0;
+    let ao = 0;
 
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
 
-        // Exponential moving averages
+        // Exponential moving a
         ema5 = calcEmaDay(index, 5, ema5, floatValue);
         ema10 = calcEmaDay(index, 10, ema10, floatValue);
         ema20 = calcEmaDay(index, 20, ema20, floatValue);
@@ -61,6 +63,12 @@ function calculateEma(values) {
         sma100 = calcSmaDay(index, values.length, 100, sma100, floatValue);
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatValue);
 
+        // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
+        // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
+        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (parseFloat(value[2]) + parseFloat(value[3])) /2 );
+        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (parseFloat(value[2]) + parseFloat(value[3])) /2 )
+        ao = sma5hl - sma34hl;
+
         // Ignore rsi readings up to n period
         if (index !== 0) {
             const result = calcRsi(index, 14, rsiGain, rsiLoss, parseFloat(values[index-1][4]), floatValue);
@@ -73,7 +81,7 @@ function calculateEma(values) {
     return {
         ema5, ema10, ema20, ema50, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
-        rsi, macd, macdSignal: ema9,
+        rsi, macd, macdSignal: ema9, ao,
     }
 }
 
