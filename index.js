@@ -39,6 +39,7 @@ function calculateEma(values) {
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
 
+        // Exponential moving averages
         ema5 = calcEmaDay(index, 5, ema5, floatValue);
         ema10 = calcEmaDay(index, 10, ema10, floatValue);
         ema20 = calcEmaDay(index, 20, ema20, floatValue);
@@ -46,11 +47,13 @@ function calculateEma(values) {
         ema100 = calcEmaDay(index, 100, ema100, floatValue);
         ema200 = calcEmaDay(index, 200, ema200, floatValue);
 
+        // Calculate for macd. 9 is the signal line
         ema9 = calcEmaDay(index, 9, ema9, floatValue);
         ema12 = calcEmaDay(index, 12, ema12, floatValue);
         ema26 = calcEmaDay(index, 26, ema26, floatValue);
         macd = ema12 - ema26;
 
+        // Simple moving averages
         sma5 = calcSmaDay(index, values.length, 5, sma5, floatValue);
         sma10 = calcSmaDay(index, values.length, 10, sma10, floatValue);
         sma20 = calcSmaDay(index, values.length, 20, sma20, floatValue);
