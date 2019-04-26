@@ -81,7 +81,7 @@ function calculateEma(values) {
         sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (floatHigh + floatLow) /2 )
         ao = sma5hl - sma34hl;
 
-        // Ignore rsi readings up to n period
+        // Ignore RSI readings up to n period
         if (index !== 0) {
             const rsiResult = calcRsi(index, 14, rsiGain, rsiLoss, prevFloatClose, floatClose);
             rsiGain = rsiResult.rsiGain;
