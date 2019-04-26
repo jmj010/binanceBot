@@ -34,7 +34,7 @@ function calculateEma(values) {
     let ema5 = ema10 = ema20 = ema30 = ema40 = ema50 = ema60 = ema100 = ema200 = 0;
     let sma5 = sma10 = sma20 = sma50 = sma100 = sma200 = 0;
     let rsiGain = rsiLoss = rsi = 0;
-    let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
+    let macd = ema9 = ema12 = ema26 = 0; // EMA 9 day is used as signal line. When MACD is below signal it is bearish. When it is above it is bullish?
     let sma5hl = sma34hl = 0;
     let ao = 0;
     let cmf = mfv = volume = 0;
