@@ -58,6 +58,23 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
+function calcCMF(index, size, period, low, high, close, volume, previousMFV, previousVolume) {
+    let newMFV = previousMFV;
+    let newVolume = previousVolume;
+    let CMF = 0;
+
+    if (index >= (size - period)) {
+        newMFV += ((((close - low) - (high - close))/(high - low)) * volume);
+        newVolume += volume;
+    }
+
+    if (index === (size - 1)) {
+        CMF = newMFV / newVolume;
+    }
+
+    return { newMFV, newVolume, CMF};
+}
+
 // Calc Bollinger Bands - sma with 2 standard deviations above and below.
 
 // Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.
@@ -66,7 +83,6 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
 
 // Best volume indicators
 
-// Chaikin money flow. Good to get indicators
 // OBV, On balance volume?
 // Maybe klinger oscillator? Doesnt seem as useful
 
@@ -74,4 +90,5 @@ module.exports = {
     calcEmaDay,
     calcSmaDay,
     calcRsi,
+    calcCMF,
 }

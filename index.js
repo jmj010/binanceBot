@@ -1,7 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
-const { calcEmaDay, calcSmaDay, calcRsi } = require('./functions');
+const { calcEmaDay, calcSmaDay, calcRsi, calcCMF } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -37,57 +37,68 @@ function calculateEma(values) {
     let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
     let sma5hl = sma34hl = 0;
     let ao = 0;
+    let CMF = MFV = volume = 0;
 
     values.forEach((value, index) => {
-        const floatValue = parseFloat(value[4]);
+        const floatClose = parseFloat(value[4]);
+        const floatLow = parseFloat(value[3]);
+        const floatHigh = parseFloat(value[2]);
+        const floatVolume = parseFloat(value[5]);
 
         // Exponential moving averages
-        ema5 = calcEmaDay(index, 5, ema5, floatValue);
-        ema10 = calcEmaDay(index, 10, ema10, floatValue);
-        ema20 = calcEmaDay(index, 20, ema20, floatValue);
-        ema50 = calcEmaDay(index, 50, ema50, floatValue);
-        ema100 = calcEmaDay(index, 100, ema100, floatValue);
-        ema200 = calcEmaDay(index, 200, ema200, floatValue);
+        ema5 = calcEmaDay(index, 5, ema5, floatClose);
+        ema10 = calcEmaDay(index, 10, ema10, floatClose);
+        ema20 = calcEmaDay(index, 20, ema20, floatClose);
+        ema50 = calcEmaDay(index, 50, ema50, floatClose);
+        ema100 = calcEmaDay(index, 100, ema100, floatClose);
+        ema200 = calcEmaDay(index, 200, ema200, floatClose);
 
         // EMA Ribbons. Use 10, 20, 30, 40, 50 and 60 day ema lines
-        ema30 = calcEmaDay(index, 30, ema30, floatValue);
-        ema40 = calcEmaDay(index, 40, ema40, floatValue);
-        ema60 = calcEmaDay(index, 60, ema60, floatValue);
+        ema30 = calcEmaDay(index, 30, ema30, floatClose);
+        ema40 = calcEmaDay(index, 40, ema40, floatClose);
+        ema60 = calcEmaDay(index, 60, ema60, floatClose);
 
         // Calculate for macd. 9 is the signal line
-        ema9 = calcEmaDay(index, 9, ema9, floatValue);
-        ema12 = calcEmaDay(index, 12, ema12, floatValue);
-        ema26 = calcEmaDay(index, 26, ema26, floatValue);
+        ema9 = calcEmaDay(index, 9, ema9, floatClose);
+        ema12 = calcEmaDay(index, 12, ema12, floatClose);
+        ema26 = calcEmaDay(index, 26, ema26, floatClose);
         macd = ema12 - ema26;
 
         // Simple moving averages
-        sma5 = calcSmaDay(index, values.length, 5, sma5, floatValue);
-        sma10 = calcSmaDay(index, values.length, 10, sma10, floatValue);
-        sma20 = calcSmaDay(index, values.length, 20, sma20, floatValue);
-        sma50 = calcSmaDay(index, values.length, 50, sma50, floatValue);
-        sma100 = calcSmaDay(index, values.length, 100, sma100, floatValue);
-        sma200 = calcSmaDay(index, values.length, 200, sma200, floatValue);
+        sma5 = calcSmaDay(index, values.length, 5, sma5, floatClose);
+        sma10 = calcSmaDay(index, values.length, 10, sma10, floatClose);
+        sma20 = calcSmaDay(index, values.length, 20, sma20, floatClose);
+        sma50 = calcSmaDay(index, values.length, 50, sma50, floatClose);
+        sma100 = calcSmaDay(index, values.length, 100, sma100, floatClose);
+        sma200 = calcSmaDay(index, values.length, 200, sma200, floatClose);
 
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
         // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
-        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (parseFloat(value[2]) + parseFloat(value[3])) /2 );
-        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (parseFloat(value[2]) + parseFloat(value[3])) /2 )
+        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (floatHigh + floatLow) /2 );
+        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (floatHigh + floatLow) /2 )
         ao = sma5hl - sma34hl;
 
         // Ignore rsi readings up to n period
         if (index !== 0) {
-            const result = calcRsi(index, 14, rsiGain, rsiLoss, parseFloat(values[index-1][4]), floatValue);
-            rsiGain = result.rsiGain;
-            rsiLoss = result.rsiLoss;
-            rsi = result.rsi;
+            const rsiResult = calcRsi(index, 14, rsiGain, rsiLoss, parseFloat(values[index-1][4]), floatClose);
+            rsiGain = rsiResult.rsiGain;
+            rsiLoss = rsiResult.rsiLoss;
+            rsi = rsiResult.rsi;
         }
+
+        // Chaiken money flow good for volume readings. Positive indicates bullish momentum while negative indicates selling pressure with bearish trend.
+        const result = calcCMF(index, values.length, 21, floatLow, floatHigh, floatClose, floatVolume, MFV, volume);
+        MFV = result.newMFV;
+        volume = result.newVolume;
+        CMF = result.CMF;
+
     })
 
     return {
         ema5, ema10, ema20, ema30, ema40, ema50, ema60, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
-        rsi, macd, macdSignal: ema9, ao,
+        rsi, macd, macdSignal: ema9, ao, CMF,
     }
 }
 
