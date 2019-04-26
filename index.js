@@ -95,7 +95,7 @@ function calculateEma(values) {
         volume = result.newVolume;
         cmf = result.CMF;
 
-        // On Balance Volume Indiactor
+        // On Balance Volume Indicator
         if (index !== 0) {
             const obv = calcOBV(obv, prevFloatClose, floatClose, floatVolume);
         }
