@@ -75,6 +75,16 @@ function calcCMF(index, size, period, low, high, close, volume, previousMFV, pre
     return { newMFV, newVolume, CMF};
 }
 
+function calcOBV(prevOBV, prevClose, close, volume) {
+    if (prevClose === close) {
+        return prevOBV;
+    } else if(close > prevClose) {
+        return (prevOBV + volume);
+    } else {
+        return (prevOBV - volume);
+    }
+}
+
 // Calc Bollinger Bands - sma with 2 standard deviations above and below.
 
 // Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.
@@ -91,4 +101,5 @@ module.exports = {
     calcSmaDay,
     calcRsi,
     calcCMF,
+    calcOBV,
 }

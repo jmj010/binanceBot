@@ -1,7 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
-const { calcEmaDay, calcSmaDay, calcRsi, calcCMF } = require('./functions');
+const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -37,13 +37,15 @@ function calculateEma(values) {
     let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
     let sma5hl = sma34hl = 0;
     let ao = 0;
-    let CMF = MFV = volume = 0;
+    let cmf = mfv = volume = 0;
+    let obv = 0;
 
     values.forEach((value, index) => {
         const floatHigh = parseFloat(value[2]);
         const floatLow = parseFloat(value[3]);
         const floatClose = parseFloat(value[4]);
         const floatVolume = parseFloat(value[5]);
+        const prevFloatClose = index === 0 ? 0 : parseFloat(values[index - 1][4]);
 
         // Exponential moving averages
         ema5 = calcEmaDay(index, 5, ema5, floatClose);
@@ -81,24 +83,28 @@ function calculateEma(values) {
 
         // Ignore rsi readings up to n period
         if (index !== 0) {
-            const rsiResult = calcRsi(index, 14, rsiGain, rsiLoss, parseFloat(values[index-1][4]), floatClose);
+            const rsiResult = calcRsi(index, 14, rsiGain, rsiLoss, prevFloatClose, floatClose);
             rsiGain = rsiResult.rsiGain;
             rsiLoss = rsiResult.rsiLoss;
             rsi = rsiResult.rsi;
         }
 
         // Chaiken money flow good for volume readings. Positive indicates bullish momentum while negative indicates selling pressure with bearish trend.
-        const result = calcCMF(index, values.length, 21, floatLow, floatHigh, floatClose, floatVolume, MFV, volume);
-        MFV = result.newMFV;
+        const result = calcCMF(index, values.length, 21, floatLow, floatHigh, floatClose, floatVolume, mfv, volume);
+        mfv = result.newMFV;
         volume = result.newVolume;
-        CMF = result.CMF;
+        cmf = result.CMF;
 
+        // On Balance Volume Indiactor
+        if (index !== 0) {
+            const obv = calcOBV(obv, prevFloatClose, floatClose, floatVolume);
+        }
     })
 
     return {
         ema5, ema10, ema20, ema30, ema40, ema50, ema60, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
-        rsi, macd, macdSignal: ema9, ao, CMF,
+        rsi, macd, macdSignal: ema9, ao, cmf, obv,
     }
 }
 
