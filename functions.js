@@ -93,7 +93,6 @@ function calcOBV(prevOBV, prevClose, close, volume) {
 
 // Best volume indicators
 
-// OBV, On balance volume?
 // Maybe klinger oscillator? Doesnt seem as useful
 
 module.exports = {

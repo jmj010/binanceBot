@@ -39,6 +39,8 @@ function calculateEma(values) {
     let ao = 0;
     let cmf = mfv = volume = 0;
     let obv = 0;
+    // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
+    let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
     values.forEach((value, index) => {
         const floatHigh = parseFloat(value[2]);
@@ -73,6 +75,13 @@ function calculateEma(values) {
         sma50 = calcSmaDay(index, values.length, 50, sma50, floatClose);
         sma100 = calcSmaDay(index, values.length, 100, sma100, floatClose);
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatClose);
+
+        // Ichimoku Cloud
+        // Conversion Line (9-period High + 9-period Low) / 2
+        // Base Line (26-period High + 26-period Low) / 2
+        // Leading Span A (Conversion Line + Base Line) / 2
+        // Leading Span B (52-period High + 52-period Low) / 2
+        // Lagging Span Close plotted 26 days in the past
 
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
