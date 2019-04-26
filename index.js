@@ -40,9 +40,9 @@ function calculateEma(values) {
     let CMF = MFV = volume = 0;
 
     values.forEach((value, index) => {
-        const floatClose = parseFloat(value[4]);
-        const floatLow = parseFloat(value[3]);
         const floatHigh = parseFloat(value[2]);
+        const floatLow = parseFloat(value[3]);
+        const floatClose = parseFloat(value[4]);
         const floatVolume = parseFloat(value[5]);
 
         // Exponential moving averages
