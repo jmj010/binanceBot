@@ -31,7 +31,7 @@ function getBinanceData(startTime, endTime, limit, symbol) {
 }*/
 
 function calculateEma(values) {
-    let ema5 = ema10 = ema20 = ema50 = ema100 = ema200 = 0;
+    let ema5 = ema10 = ema20 = ema30 = ema40 = ema50 = ema60 = ema100 = ema200 = 0;
     let sma5 = sma10 = sma20 = sma50 = sma100 = sma200 = 0;
     let rsiGain = rsiLoss = rsi = 0;
     let macd = ema9 = ema12 = ema26 = 0; // ema9 is used as signal line. When macd is below signal it is bearish. When it is above it is bullish?
@@ -41,13 +41,18 @@ function calculateEma(values) {
     values.forEach((value, index) => {
         const floatValue = parseFloat(value[4]);
 
-        // Exponential moving a
+        // Exponential moving averages
         ema5 = calcEmaDay(index, 5, ema5, floatValue);
         ema10 = calcEmaDay(index, 10, ema10, floatValue);
         ema20 = calcEmaDay(index, 20, ema20, floatValue);
         ema50 = calcEmaDay(index, 50, ema50, floatValue);
         ema100 = calcEmaDay(index, 100, ema100, floatValue);
         ema200 = calcEmaDay(index, 200, ema200, floatValue);
+
+        // EMA Ribbons. Use 10, 20, 30, 40, 50 and 60 day ema lines
+        ema30 = calcEmaDay(index, 30, ema30, floatValue);
+        ema40 = calcEmaDay(index, 40, ema40, floatValue);
+        ema60 = calcEmaDay(index, 60, ema60, floatValue);
 
         // Calculate for macd. 9 is the signal line
         ema9 = calcEmaDay(index, 9, ema9, floatValue);
@@ -63,6 +68,7 @@ function calculateEma(values) {
         sma100 = calcSmaDay(index, values.length, 100, sma100, floatValue);
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatValue);
 
+        // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
         // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
         sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (parseFloat(value[2]) + parseFloat(value[3])) /2 );
@@ -79,7 +85,7 @@ function calculateEma(values) {
     })
 
     return {
-        ema5, ema10, ema20, ema50, ema100, ema200,
+        ema5, ema10, ema20, ema30, ema40, ema50, ema60, ema100, ema200,
         sma5, sma10, sma20, sma50, sma100, sma200,
         rsi, macd, macdSignal: ema9, ao,
     }

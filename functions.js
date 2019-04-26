@@ -58,14 +58,11 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
-// CalcBollingerBands - sma with 2 standard deviations above and below.
-// EmaRibbons - 5 different emas chosen
+// Calc Bollinger Bands - sma with 2 standard deviations above and below.
 
 // Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.
 // Within the cloud it is dicey. Cool thing is that compared to other lagging indicators ichimoku cloud tells support/resistance
 // levels projected into the future.
-
-// Awesome oscillator - trend confirmation
 
 // Best volume indicators
 
