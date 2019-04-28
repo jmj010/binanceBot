@@ -85,10 +85,32 @@ function calcOBV(prevOBV, prevClose, close, volume) {
     }
 }
 
+function calcSD(index, values) {
+    let summation = 0;
+    let mean = 0;
+    let sqDiffSum = 0;
+    let meanSqDiff = 0;
+
+    for (let i = 0; i < 20; i += 1) {
+        summation += values[index - i];
+    }
+
+    mean = summation / 20;
+
+    for (let i = 0; i < 20; i += 1) {
+        sqDiffSum += (Math.pow((values[index-1] - mean), 2));
+    }
+
+    meanSqDiff = sqDiffSum / 20;
+
+    return Math.sqrt(meanSqDiff);
+}
+
 module.exports = {
     calcEmaDay,
     calcSmaDay,
     calcRsi,
     calcCMF,
     calcOBV,
+    calcSD,
 }

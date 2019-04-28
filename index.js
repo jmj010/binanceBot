@@ -1,7 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
-const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV } = require('./functions');
+const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV, calcSD } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -39,6 +39,7 @@ function calculateAlgorithms(values) {
     let ao = 0;
     let cmf = mfv = volume = 0;
     let obv = 0;
+    let middleBand = upperBand = lowerBand = 0 = sd20;
     // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
     let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
@@ -77,6 +78,13 @@ function calculateAlgorithms(values) {
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatClose);
 
         // Bollinger Bands - sma with 2 standard deviations above and below.
+        if (index > 20) {
+            // Since looking for 20 day period values. Make sure that there exists 20 days worth of values
+            sd20 = calcSD(index, values);
+            middleBand = sma20;
+            upperBand = sma20 + (sd20 * 2);
+            lowerBand = sma20 - (sd20 * 2);
+        }
 
         // Ichimoku Cloud
         // Conversion Line (9-period High + 9-period Low) / 2
@@ -122,6 +130,6 @@ function calculateAlgorithms(values) {
 trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
 
 Promise.all(promises).then((values) => {
-    const emas = values.map(value => calculateAlgorithms(value));
-    console.log(emas);
+    const calculations = values.map(value => calculateAlgorithms(value));
+    console.log(calculations);
 });
