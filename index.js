@@ -30,7 +30,7 @@ function getBinanceData(startTime, endTime, limit, symbol) {
 
 }*/
 
-function calculateEma(values) {
+function calculateAlgorithms(values) {
     let ema5 = ema10 = ema20 = ema30 = ema40 = ema50 = ema60 = ema100 = ema200 = 0;
     let sma5 = sma10 = sma20 = sma50 = sma100 = sma200 = 0;
     let rsiGain = rsiLoss = rsi = 0;
@@ -122,6 +122,6 @@ function calculateEma(values) {
 trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
 
 Promise.all(promises).then((values) => {
-    const emas = values.map(value => calculateEma(value));
+    const emas = values.map(value => calculateAlgorithms(value));
     console.log(emas);
 });
