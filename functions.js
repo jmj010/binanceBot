@@ -85,16 +85,6 @@ function calcOBV(prevOBV, prevClose, close, volume) {
     }
 }
 
-// Calc Bollinger Bands - sma with 2 standard deviations above and below.
-
-// Ichimoku cloud? When price is above clouds the trend is up. While it is below cloud the trend is down.
-// Within the cloud it is dicey. Cool thing is that compared to other lagging indicators ichimoku cloud tells support/resistance
-// levels projected into the future.
-
-// Best volume indicators
-
-// Maybe klinger oscillator? Doesnt seem as useful
-
 module.exports = {
     calcEmaDay,
     calcSmaDay,

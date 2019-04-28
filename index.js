@@ -76,6 +76,8 @@ function calculateEma(values) {
         sma100 = calcSmaDay(index, values.length, 100, sma100, floatClose);
         sma200 = calcSmaDay(index, values.length, 200, sma200, floatClose);
 
+        // Bollinger Bands - sma with 2 standard deviations above and below.
+
         // Ichimoku Cloud
         // Conversion Line (9-period High + 9-period Low) / 2
         // Base Line (26-period High + 26-period Low) / 2
