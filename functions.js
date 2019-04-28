@@ -92,13 +92,13 @@ function calcSD(index, values) {
     let meanSqDiff = 0;
 
     for (let i = 0; i < 20; i += 1) {
-        summation += values[index - i];
+        summation += parseFloat(values[index - i][4]);
     }
 
     mean = summation / 20;
 
     for (let i = 0; i < 20; i += 1) {
-        sqDiffSum += (Math.pow((values[index-1] - mean), 2));
+        sqDiffSum += (Math.pow((parseFloat(values[index - i][4]) - mean), 2));
     }
 
     meanSqDiff = sqDiffSum / 20;

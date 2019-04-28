@@ -39,7 +39,7 @@ function calculateAlgorithms(values) {
     let ao = 0;
     let cmf = mfv = volume = 0;
     let obv = 0;
-    let middleBand = upperBand = lowerBand = 0 = sd20;
+    let middleBand = upperBand = lowerBand = sd20 = 0;
     // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
     let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
@@ -84,6 +84,7 @@ function calculateAlgorithms(values) {
             middleBand = sma20;
             upperBand = sma20 + (sd20 * 2);
             lowerBand = sma20 - (sd20 * 2);
+            console.log(sd20);
         }
 
         // Ichimoku Cloud
@@ -96,8 +97,8 @@ function calculateAlgorithms(values) {
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
         // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
-        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (floatHigh + floatLow) /2 );
-        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (floatHigh + floatLow) /2 )
+        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (floatHigh + floatLow) / 2 );
+        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (floatHigh + floatLow) / 2 )
         ao = sma5hl - sma34hl;
 
         // Ignore RSI readings up to n period
@@ -116,7 +117,7 @@ function calculateAlgorithms(values) {
 
         // On Balance Volume Indicator
         if (index !== 0) {
-            const obv = calcOBV(obv, prevFloatClose, floatClose, floatVolume);
+            obv = calcOBV(obv, prevFloatClose, floatClose, floatVolume);
         }
     })
 
