@@ -106,6 +106,26 @@ function calcSD(index, values) {
     return Math.sqrt(meanSqDiff);
 }
 
+// Ichimoku Cloud
+// Conversion Line (9-period High + 9-period Low) / 2
+// Base Line (26-period High + 26-period Low) / 2
+// Leading Span A (Conversion Line + Base Line) / 2
+// Leading Span B (52-period High + 52-period Low) / 2
+// Lagging Span Close plotted 26 days in the past
+function calcIchimokuCloud(index, values) {
+    let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
+
+    // TODO: Finish the calculations for ichimoku cloud
+
+    return {
+        tenkanSen,
+        kijunSen,
+        senkouSpanA,
+        senkouSpanB,
+        chikouSpan
+    };
+}
+
 module.exports = {
     calcEmaDay,
     calcSmaDay,
@@ -113,4 +133,5 @@ module.exports = {
     calcCMF,
     calcOBV,
     calcSD,
+    calcIchimokuCloud,
 }

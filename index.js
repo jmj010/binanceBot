@@ -1,7 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
-const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV, calcSD } = require('./functions');
+const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV, calcSD, calcIchimokuCloud } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
 const api = '/api'
@@ -84,7 +84,6 @@ function calculateAlgorithms(values) {
             middleBand = sma20;
             upperBand = sma20 + (sd20 * 2);
             lowerBand = sma20 - (sd20 * 2);
-            console.log(sd20);
         }
 
         // Ichimoku Cloud
@@ -93,6 +92,14 @@ function calculateAlgorithms(values) {
         // Leading Span A (Conversion Line + Base Line) / 2
         // Leading Span B (52-period High + 52-period Low) / 2
         // Lagging Span Close plotted 26 days in the past
+        if (index > 52) {
+            const cloudResults = calcIchimokuCloud(index, values);
+            tenkanSen = cloudResults.tenkanSen;
+            kijunSen = cloudResults.kijunSen;
+            senkouSpanA = cloudResults.senkouSpanA;
+            senkouSpanB = cloudResults.senkouSpanB;
+            chikouSpan = cloudResults.chikouSpan;
+        }
 
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
