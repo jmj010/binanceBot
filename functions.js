@@ -113,32 +113,49 @@ function calcSD(index, values) {
 // Leading Span B (52-period High + 52-period Low) / 2
 // Lagging Span Close plotted 26 days in the past
 function calcIchimokuCloud(index, values) {
-    let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
+    let period9high  = period26high = period52high = parseFloat(values[index][2]);
+    let period9low = period26low = period52low = parseFloat(values[index][3]);
+    let kenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
     for (let i = 0; i < 52; i += 1) {
         const floatLow = parseFloat(values[index - i][3]);
-        const floatHigh = parseFloat(values[index - 1][2]);
+        const floatHigh = parseFloat(values[index - i][2]);
         if (i < 9) {
-            tenkanSen += floatLow + floatHigh;
+            if (floatLow < period9low) {
+                period9low = floatLow;
+            }
+            if (floatHigh > period9high) {
+                period9high = floatHigh;
+            }
         }
 
         if (i < 26) {
-            kijunSen += floatLow + floatHigh;
+            if (floatLow < period26low) {
+                period26low = floatLow;
+            }
+            if (floatHigh > period26high) {
+                period26high = floatHigh;
+            }
         }
 
         if (i < 52) {
-            senkouSpanB += floatLow + floatHigh;
+            if (floatLow < period52low) {
+                period52low = floatLow;
+            }
+            if (floatHigh > period52high) {
+                period52high = floatHigh;
+            }
         }
     }
 
-    tenkanSen = (tenkanSen / 2);
-    kijunSen = (kijunSen / 2);
-    senkouSpanB = (senkouSpanB / 2);
-    leadingSpanA = ((tenkanSen + kijunSen) / 2)
+    kenkanSen = ((period9high + period9low) / 2);
+    kijunSen = ((period26high + period26low) / 2);
+    senkouSpanB = ((period52high + period52low) / 2);
+    senkouSpanA = ((kenkanSen + kijunSen) / 2)
     chikouSpan = parseFloat(values[index][4]);
 
     return {
-        tenkanSen,
+        kenkanSen,
         kijunSen,
         senkouSpanA,
         senkouSpanB,
