@@ -41,7 +41,7 @@ function calculateAlgorithms(values) {
     let obv = 0;
     let middleBand = upperBand = lowerBand = sd20 = 0;
     // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
-    let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
+    let kenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
     values.forEach((value, index) => {
         const floatHigh = parseFloat(value[2]);
@@ -94,7 +94,7 @@ function calculateAlgorithms(values) {
         // Lagging Span Close plotted 26 days in the past
         if (index > 52) {
             const cloudResults = calcIchimokuCloud(index, values);
-            tenkanSen = cloudResults.tenkanSen;
+            kenkanSen = cloudResults.kenkanSen;
             kijunSen = cloudResults.kijunSen;
             senkouSpanA = cloudResults.senkouSpanA;
             senkouSpanB = cloudResults.senkouSpanB;
@@ -133,7 +133,7 @@ function calculateAlgorithms(values) {
         sma5, sma10, sma20, sma50, sma100, sma200,
         rsi, macd, macdSignal: ema9, ao, cmf, obv,
         middleBand, upperBand, lowerBand,
-        tenkanSen, kijunSen, senkouSpanA, senkouSpanB, chikouSpan,
+        kenkanSen, kijunSen, senkouSpanA, senkouSpanB, chikouSpan,
     }
 }
 
