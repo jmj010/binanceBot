@@ -133,6 +133,7 @@ function calculateAlgorithms(values) {
         sma5, sma10, sma20, sma50, sma100, sma200,
         rsi, macd, macdSignal: ema9, ao, cmf, obv,
         middleBand, upperBand, lowerBand,
+        tenkanSen, kijunSen, senkouSpanA, senkouSpanB, chikouSpan,
     }
 }
 
