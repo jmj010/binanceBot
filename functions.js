@@ -115,7 +115,27 @@ function calcSD(index, values) {
 function calcIchimokuCloud(index, values) {
     let tenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
 
-    // TODO: Finish the calculations for ichimoku cloud
+    for (let i = 0; i < 52; i += 1) {
+        const floatLow = parseFloat(values[index - i][3]);
+        const floatHigh = parseFloat(values[index - 1][2]);
+        if (i < 9) {
+            tenkanSen += floatLow + floatHigh;
+        }
+
+        if (i < 26) {
+            kijunSen += floatLow + floatHigh;
+        }
+
+        if (i < 52) {
+            senkouSpanB += floatLow + floatHigh;
+        }
+    }
+
+    tenkanSen = (tenkanSen / 2);
+    kijunSen = (kijunSen / 2);
+    senkouSpanB = (senkouSpanB / 2);
+    leadingSpanA = ((tenkanSen + kijunSen) / 2)
+    chikouSpan = parseFloat(values[index][4]);
 
     return {
         tenkanSen,
