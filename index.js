@@ -70,12 +70,12 @@ function calculateAlgorithms(values) {
         macd = ema12 - ema26;
 
         // Simple moving averages
-        sma5 = calcSmaDay(index, values.length, 5, sma5, floatClose);
-        sma10 = calcSmaDay(index, values.length, 10, sma10, floatClose);
-        sma20 = calcSmaDay(index, values.length, 20, sma20, floatClose);
-        sma50 = calcSmaDay(index, values.length, 50, sma50, floatClose);
-        sma100 = calcSmaDay(index, values.length, 100, sma100, floatClose);
-        sma200 = calcSmaDay(index, values.length, 200, sma200, floatClose);
+        sma5 = calcSmaDay(index, 5, values);
+        sma10 = calcSmaDay(index, 10, values);
+        sma20 = calcSmaDay(index, 20, values);
+        sma50 = calcSmaDay(index, 50, values);
+        sma100 = calcSmaDay(index, 100, values);
+        sma200 = calcSmaDay(index, 200, values);
 
         // Bollinger Bands - sma with 2 standard deviations above and below.
         if (index > 20) {
