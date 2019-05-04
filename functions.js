@@ -17,6 +17,7 @@ function calcEmaDay(index, period, previousEma, close) {
     return returnValue;
 }
 
+// Needs to be fixed
 function calcSmaDay(index, size, period, previousSma, close) {
     let returnValue = previousSma;
 
@@ -31,6 +32,7 @@ function calcSmaDay(index, size, period, previousSma, close) {
     return returnValue;
 }
 
+// Needs to be fixed
 // RSI over 70 is over bought. Under 30 is over sold. Over 80 and under 20 is extremes
 function calcRsi(index, period, previousGains, previousLosses, previousClose, newClose) {
     let rsiGain = previousGains;
@@ -58,6 +60,7 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
+// Needs to be fixed
 function calcCMF(index, size, period, low, high, close, volume, previousMFV, previousVolume) {
     let newMFV = previousMFV;
     let newVolume = previousVolume;
@@ -75,6 +78,7 @@ function calcCMF(index, size, period, low, high, close, volume, previousMFV, pre
     return { newMFV, newVolume, CMF};
 }
 
+// Needs to be fixed
 function calcOBV(prevOBV, prevClose, close, volume) {
     if (prevClose === close) {
         return prevOBV;
