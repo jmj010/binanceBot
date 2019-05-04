@@ -77,7 +77,6 @@ function calcCMF(index, size, period, low, high, close, volume, previousMFV, pre
     return { newMFV, newVolume, CMF};
 }
 
-// Needs to be fixed
 function calcOBV(prevOBV, prevClose, close, volume) {
     if (prevClose === close) {
         return prevOBV;
