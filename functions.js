@@ -17,19 +17,18 @@ function calcEmaDay(index, period, previousEma, close) {
     return returnValue;
 }
 
-// Needs to be fixed
-function calcSmaDay(index, size, period, previousSma, close) {
-    let returnValue = previousSma;
-
-    if (index >= (size - period)) {
-        returnValue += close;
+function calcSmaDay(index, period, values) {
+    let summation = 0;
+    if (index < period) {
+        // Not enough data points to calculate so return 0
+        return summation;
     }
 
-    if (index === (size - 1)) {
-        returnValue = returnValue / period;
+    for (let i = 0; i < period; i += 1) {
+        summation += values[index - i][4];
     }
 
-    return returnValue;
+    return (summation / period);
 }
 
 // Needs to be fixed
