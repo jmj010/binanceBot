@@ -25,7 +25,7 @@ function calcSmaDay(index, period, values) {
     }
 
     for (let i = 0; i < period; i += 1) {
-        summation += values[index - i][4];
+        summation += parseFloat(values[index - i][4]);
     }
 
     return (summation / period);
