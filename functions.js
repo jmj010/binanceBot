@@ -58,22 +58,21 @@ function calcRsi(index, period, previousGains, previousLosses, previousClose, ne
     return { rsiGain, rsiLoss, rsi };
 }
 
-// Needs to be fixed
-function calcCMF(index, size, period, low, high, close, volume, previousMFV, previousVolume) {
-    let newMFV = previousMFV;
-    let newVolume = previousVolume;
-    let CMF = 0;
+function calcCMF(index, period, values) {
+    let mfv = 0;
+    let volume = 0;
 
-    if (index >= (size - period)) {
-        newMFV += ((((close - low) - (high - close))/(high - low)) * volume);
-        newVolume += volume;
+    for (let i = 0; i < period; i += 1) {
+        const floatHigh = parseFloat(values[index - i][2]);
+        const floatLow = parseFloat(values[index - i][3]);
+        const floatClose = parseFloat(values[index - i][4]);
+        const floatVolume = parseFloat(values[index - i][5]);
+
+        mfv += ((((floatClose - floatLow) - (floatHigh - floatClose))/(floatHigh - floatLow)) * floatVolume);
+        volume += floatVolume;
     }
 
-    if (index === (size - 1)) {
-        CMF = newMFV / newVolume;
-    }
-
-    return { newMFV, newVolume, CMF};
+    return (mfv / volume);
 }
 
 function calcOBV(prevOBV, prevClose, close, volume) {
