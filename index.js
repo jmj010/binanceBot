@@ -37,7 +37,7 @@ function calculateAlgorithms(values) {
     let macd = ema9 = ema12 = ema26 = 0; // EMA 9 day is used as signal line. When MACD is below signal it is bearish. When it is above it is bullish?
     let sma5hl = sma34hl = 0;
     let ao = 0;
-    let cmf = mfv = volume = 0;
+    let cmf = 0;
     let obv = 0;
     let middleBand = upperBand = lowerBand = sd20 = 0;
     // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
@@ -117,10 +117,9 @@ function calculateAlgorithms(values) {
         }
 
         // Chaiken money flow good for volume readings. Positive indicates bullish momentum while negative indicates selling pressure with bearish trend.
-        const result = calcCMF(index, values.length, 21, floatLow, floatHigh, floatClose, floatVolume, mfv, volume);
-        mfv = result.newMFV;
-        volume = result.newVolume;
-        cmf = result.CMF;
+        if (index > 21) {
+            cmf = calcCMF(index, 21, values);
+        }
 
         // On Balance Volume Indicator
         if (index !== 0) {
