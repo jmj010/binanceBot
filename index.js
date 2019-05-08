@@ -9,7 +9,7 @@ const version = '/v1';
 
 const endpoint = binance_endpoint + api + version;
 
-const limit = 500;
+const limit = 1000;
 const endTime = new Date().getTime();
 const startTime = endTime - (24 * 60 * 60 * 1000 * limit);
 const promises = [];
