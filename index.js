@@ -17,8 +17,7 @@ let startTime = endTime - (24 * 60 * 60 * 1000 * limit);
 let endTime2 = endTime - (24 * 60 * 60 * 1000 * limit);
 let startTime2 = startTime - (24 * 60 * 60 * 1000 * limit);
 
-const promises = [];
-const trackCoins = ['LTCBTC'];//, 'ETHBTC', 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
+const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
 function getBinanceData(startTime, endTime, limit, symbol) {
     return new Promise((resolve, reject) => {
@@ -141,20 +140,23 @@ function calculateAlgorithms(values) {
     }
 }
 
-trackCoins.forEach(coin => promises.push(getBinanceData(startTime2, endTime2, limit, coin)));
-trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
+trackCoins.forEach((coin) => {
+    const promises = [];
 
-Promise.all(promises).then((values) => {
-    const calculations = values.map(value => calculateAlgorithms(value));
-    console.log(calculations);
+    promises.push(getBinanceData(startTime2, endTime2, limit, coin));
+    promises.push(getBinanceData(startTime, endTime, limit, coin));
+
+    Promise.all(promises).then((values) => {
+        const mergedValues = values[0].concat(values[1]);
+        mergedValues.pop(); // Remove the current days values since it is not complete yet
+        
+        const calculations = calculateAlgorithms(mergedValues);
+        console.log(calculations);
+    })
 });
-
-
-
 
 /*
     Things to do
-    1. Make sure you can calculate more than 1000 days of data. 2000 days minimum
     2. What do i need to log? Maybe nothing? Instead send reports to email of coins that have flipped.
     3. Run and create this report daily
     4. Create another reading every 5 mins that does special tests against
