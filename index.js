@@ -145,9 +145,8 @@ trackCoins.forEach(coin => promises.push(getBinanceData(startTime2, endTime2, li
 trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
 
 Promise.all(promises).then((values) => {
-    console.log(values);
-    /*const calculations = values.map(value => calculateAlgorithms(value));
-    console.log(calculations);*/
+    const calculations = values.map(value => calculateAlgorithms(value));
+    console.log(calculations);
 });
 
 
