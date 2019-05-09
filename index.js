@@ -1,6 +1,7 @@
 // const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
 const { calcEmaDay, calcSmaDay, calcRsi, calcCMF, calcOBV, calcSD, calcIchimokuCloud } = require('./functions');
 
 const binance_endpoint = 'https://api.binance.com';
