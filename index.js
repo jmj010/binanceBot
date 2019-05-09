@@ -10,8 +10,13 @@ const version = '/v1';
 const endpoint = binance_endpoint + api + version;
 
 const limit = 1000;
-const endTime = new Date().getTime();
-const startTime = endTime - (24 * 60 * 60 * 1000 * limit);
+
+let endTime = new Date().getTime();
+let startTime = endTime - (24 * 60 * 60 * 1000 * limit);
+
+let endTime2 = endTime - (24 * 60 * 60 * 1000 * limit);
+let startTime2 = startTime - (24 * 60 * 60 * 1000 * limit);
+
 const promises = [];
 const trackCoins = ['LTCBTC'];//, 'ETHBTC', 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
@@ -136,12 +141,16 @@ function calculateAlgorithms(values) {
     }
 }
 
+trackCoins.forEach(coin => promises.push(getBinanceData(startTime2, endTime2, limit, coin)));
 trackCoins.forEach(coin => promises.push(getBinanceData(startTime, endTime, limit, coin)));
 
 Promise.all(promises).then((values) => {
-    const calculations = values.map(value => calculateAlgorithms(value));
-    console.log(calculations);
+    console.log(values);
+    /*const calculations = values.map(value => calculateAlgorithms(value));
+    console.log(calculations);*/
 });
+
+
 
 
 /*
