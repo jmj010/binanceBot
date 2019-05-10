@@ -18,6 +18,14 @@ let startTime = endTime - (24 * 60 * 60 * 1000 * limit);
 let endTime2 = endTime - (24 * 60 * 60 * 1000 * limit);
 let startTime2 = startTime - (24 * 60 * 60 * 1000 * limit);
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'CoinFlexHelp@gmail.com',
+        pass: 'coinflexpasswordslimjim626626'
+    }
+});
+
 const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
 function getBinanceData(startTime, endTime, limit, symbol) {
