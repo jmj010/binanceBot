@@ -26,7 +26,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+const recipient = 'slimjimmaster@gmail.com';
+
 const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
+
+const message = '';
 
 function getBinanceData(startTime, endTime, limit, symbol) {
     return new Promise((resolve, reject) => {
@@ -149,6 +153,31 @@ function calculateAlgorithms(values) {
     }
 }
 
+function sendMailUpdate(message) {
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+
+    const mailOptions = {
+        from: 'CoinFlexHelp@email.com', // sender address
+        // to: '6194679528@pm.sprint.com', // list of receivers
+        to: recipient,
+        subject: `ATTN: ${mm}/${dd}/${yyyy} Coin Report`, // Subject line
+        //html: '<p>BUY NEO NOW!</n>Current Price is $102.38</p>'// plain text body
+        // text: 'BUY NEO NOW!'
+        html: message
+    }
+
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(info);
+        }
+    });
+}
+
 trackCoins.forEach((coin) => {
     const promises = [];
 
@@ -163,6 +192,8 @@ trackCoins.forEach((coin) => {
         console.log(calculations);
     })
 });
+
+sendMailUpdate(message);
 
 /*
     Things to do
