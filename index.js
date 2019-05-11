@@ -59,13 +59,15 @@ function calculateAlgorithms(values) {
     let middleBand = upperBand = lowerBand = sd20 = 0;
     // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
     let kenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
+    let floatHigh = floatLow = floatClose = floatOpen = floatVolume = 0;
 
     values.forEach((value, index) => {
-        const floatHigh = parseFloat(value[2]);
-        const floatLow = parseFloat(value[3]);
-        const floatClose = parseFloat(value[4]);
-        const floatVolume = parseFloat(value[5]);
-        const prevFloatClose = index === 0 ? 0 : parseFloat(values[index - 1][4]);
+        floatOpen = parseFloat(value[1]);
+        floatHigh = parseFloat(value[2]);
+        floatLow = parseFloat(value[3]);
+        floatClose = parseFloat(value[4]);
+        floatVolume = parseFloat(value[5]);
+        prevFloatClose = index === 0 ? 0 : parseFloat(values[index - 1][4]);
 
         // Exponential moving averages
         ema5 = calcEmaDay(index, 5, ema5, floatClose);
