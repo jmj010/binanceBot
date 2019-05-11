@@ -152,6 +152,7 @@ function calculateAlgorithms(values) {
         rsi, macd, macdSignal: ema9, ao, cmf, obv,
         middleBand, upperBand, lowerBand,
         kenkanSen, kijunSen, senkouSpanA, senkouSpanB, chikouSpan,
+        floatOpen, floatClose, floatLow, floatHigh, floatVolume,
     }
 }
 
