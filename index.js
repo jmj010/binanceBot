@@ -201,7 +201,10 @@ async function main() {
             message += `Close: ${calculations.floatClose}<br/>`;
             message += `High: ${calculations.floatHigh}<br/>`;
             message += `Low: ${calculations.floatLow}<br/>`;
-            message += `Volume: ${calculations.floatVolume}<br/>`;
+            message += `Volume: ${calculations.floatVolume}<br/><br/>`;
+            message += 'ema5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ema10&nbsp;&nbsp;&nbsp;&nbsp;ema20&nbsp;&nbsp;&nbsp;&nbsp;ema30&nbsp;&nbsp;&nbsp;&nbsp;ema40&nbsp;&nbsp;&nbsp;&nbsp;ema50&nbsp;&nbsp;&nbsp;&nbsp;ema60&nbsp;&nbsp;&nbsp;&nbsp;ema100&nbsp;&nbsp;ema200<br/>';
+            message += `${calculations.ema5.toFixed(5)} &nbsp;${calculations.ema10.toFixed(5)} &nbsp;${calculations.ema20.toFixed(5)} &nbsp;${calculations.ema30.toFixed(5)} &nbsp;`;
+            message += `${calculations.ema40.toFixed(5)} &nbsp;${calculations.ema50.toFixed(5)} &nbsp;${calculations.ema60.toFixed(5)} &nbsp;${calculations.ema100.toFixed(5)} &nbsp;${calculations.ema200.toFixed(5)}<br/>`;
             console.log(calculations);
         })
     }
