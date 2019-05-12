@@ -30,7 +30,7 @@ const recipient = 'slimjimmaster@gmail.com';
 
 const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
-const message = '';
+let message = '';
 
 function getBinanceData(startTime, endTime, limit, symbol) {
     return new Promise((resolve, reject) => {
@@ -181,23 +181,36 @@ function sendMailUpdate(message) {
     });
 }
 
-trackCoins.forEach((coin) => {
-    const promises = [];
+async function main() {
+    for (let i = 0; i < trackCoins.length; i += 1) {
+        const coin = trackCoins[i];
+        const promises = [];
+    
+        promises.push(getBinanceData(startTime2, endTime2, limit, coin));
+        promises.push(getBinanceData(startTime, endTime, limit, coin));
+    
+        await Promise.all(promises).then((values) => {
+            const mergedValues = values[0].concat(values[1]);
+            mergedValues.pop(); // Remove the current days values since it is not complete yet
+            
+            const calculations = calculateAlgorithms(mergedValues);
+    
+            message += `<br/>${coin}<br/>`;
+    
+            message += `Open: ${calculations.floatOpen}<br/>`;
+            message += `Close: ${calculations.floatClose}<br/>`;
+            message += `High: ${calculations.floatHigh}<br/>`;
+            message += `Low: ${calculations.floatLow}<br/>`;
+            message += `Volume: ${calculations.floatVolume}<br/>`;
+            console.log(calculations);
+        })
+    }
 
-    promises.push(getBinanceData(startTime2, endTime2, limit, coin));
-    promises.push(getBinanceData(startTime, endTime, limit, coin));
+    console.log('Message: ', message);
+    sendMailUpdate(message);
+}
 
-    Promise.all(promises).then((values) => {
-        const mergedValues = values[0].concat(values[1]);
-        mergedValues.pop(); // Remove the current days values since it is not complete yet
-        
-        const calculations = calculateAlgorithms(mergedValues);
-        console.log(calculations);
-    })
-});
-
-sendMailUpdate(message);
-
+main();
 /*
     Things to do
     2. What do i need to log? Maybe nothing? Instead send reports to email of coins that have flipped.
