@@ -117,7 +117,7 @@ function calculateAlgorithms(values) {
             kijunSen = cloudResults.kijunSen;
             senkouSpanA = cloudResults.senkouSpanA;
             senkouSpanB = cloudResults.senkouSpanB;
-            chikouSpan = cloudResults.chikouSpan;
+            chikouSpan = cloudResults.chikouSpan;``
         }
 
         // Trend confirmation
@@ -206,6 +206,22 @@ async function main() {
             message += `High: ${calculations.floatHigh}<br/>`;
             message += `Low: ${calculations.floatLow}<br/>`;
             message += `Volume: ${calculations.floatVolume}<br/><br/>`;
+
+            // PRINT RSI
+            message += `RSI: ${calculations.rsi} `;
+            if (calculations.rsi < 30) {
+                if (calculations.rsi < 20) {
+                    message += 'EXTREME ';
+                }
+                message += 'OVERSOLD';
+            } else if(calculations.rsi > 70) {
+                if (calculations.rsi > 80) {
+                    message += 'EXTREME ';
+                }
+                message += 'OVERBOUGHT';
+            }
+
+            // PRINT EMA/SMA
             emas.forEach((ema) => {
                 message += `${ema.period}&nbsp;&nbsp;`;
             });
