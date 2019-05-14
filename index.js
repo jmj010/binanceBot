@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
 
 const recipient = 'coinflexalerts@gmail.com';
 
-const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
+const trackCoins = ['BTCUSDT', 'LTCBTC', 'ETHBTC', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
 let message = '';
 
@@ -220,6 +220,7 @@ async function main() {
                 }
                 message += 'OVERBOUGHT';
             }
+            message += '<br/>';
 
             // PRINT EMA/SMA
             emas.forEach((ema) => {
