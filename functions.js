@@ -31,6 +31,19 @@ function calcSmaDay(index, period, values) {
     return (summation / period);
 }
 
+function calcSmaMedian(index, period, values) {
+    let summation = 0;
+    if (index < period) {
+        return summation;
+    }
+
+    for (let i = 0; i < period; i += 1) {
+        summation += ((parseFloat(values[index - i][2]) + parseFloat(values[index - i][3])) / 2);
+    }
+
+    return (summation / period);
+}
+
 // RSI over 70 is over bought. Under 30 is over sold. Over 80 and under 20 is extremes
 function calcRsi(index, period, previousGains, previousLosses, previousClose, newClose) {
     let rsiGain = previousGains;
