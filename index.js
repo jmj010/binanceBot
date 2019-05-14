@@ -230,6 +230,9 @@ async function main() {
             // Chaiken Money Flow
             message += `CMF: ${calculations.cmf.toFixed(5)} ${calculations.cmf > 0 ? '<span style="color:blue;">STRENGTH' : '<span style="color:red;">WEAKNESS'}</span><br/>`;
 
+            // Awesome Oscillator
+            message += `AO: ${calculations.ao.toFixed(5)} ${calculations.ao > 0 ? '<span style="color:blue;">BULL Leaning' : '<span style="color:red;">Bear Leaning'}</span><br/>`;
+
             // PRINT EMA/SMA
             emas.forEach((ema) => {
                 message += `${ema.period}&nbsp;&nbsp;`;
