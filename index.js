@@ -123,8 +123,8 @@ function calculateAlgorithms(values) {
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
         // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
-        sma5hl = calcSmaDay(index, values.length, 5, sma5hl, (floatHigh + floatLow) / 2 );
-        sma34hl = calcSmaDay(index, values.length, 34, sma34hl, (floatHigh + floatLow) / 2 )
+        sma5hl = calcSmaDay(index, 5, values);
+        sma34hl = calcSmaDay(index, 34, values);
         ao = sma5hl - sma34hl;
 
         // Ignore RSI readings up to n period
