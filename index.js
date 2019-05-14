@@ -205,7 +205,8 @@ async function main() {
             message += `Close: ${calculations.floatClose}<br/>`;
             message += `High: ${calculations.floatHigh}<br/>`;
             message += `Low: ${calculations.floatLow}<br/>`;
-            message += `Volume: ${calculations.floatVolume}<br/><br/>`;
+            message += `Volume: ${calculations.floatVolume}<br/>`;
+            message += `Lower Band: ${calculations.lowerBand.toFixed(5)} Middle Band: ${calculations.middleBand.toFixed(5)} Upper Band: ${calculations.upperBand.toFixed(5)}<br/><br/>`;
 
             // PRINT RSI
             message += `RSI: ${calculations.rsi.toFixed(5)} `;
@@ -233,6 +234,7 @@ async function main() {
             // Awesome Oscillator
             message += `AO: ${calculations.ao.toFixed(5)} ${calculations.ao > 0 ? '<span style="color:blue;">BULL Leaning' : '<span style="color:red;">Bear Leaning'}</span><br/>`;
 
+            message += '<br/>';
             // PRINT EMA/SMA
             emas.forEach((ema) => {
                 message += `${ema.period}&nbsp;&nbsp;`;
