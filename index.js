@@ -194,7 +194,11 @@ async function main() {
             mergedValues.pop(); // Remove the current days values since it is not complete yet
             
             const calculations = calculateAlgorithms(mergedValues);
-    
+            let emas = [{ period: "ema__5", calc: calculations.ema5 }, { period: "ema_10", calc: calculations.ema10 }, { period: "ema_20", calc: calculations.ema20 },
+                        { period: "ema_30", calc: calculations.ema30 }, { period: "ema_40", calc: calculations.ema40 }, { period: "ema_50", calc: calculations.ema50 },
+                        { period: "ema_60", calc: calculations.ema60 }, { period: "ema100", calc: calculations.ema100 }, { period: "ema200", calc: calculations.ema200 }];
+            emas = emas.sort((a, b) => a.calc > b.calc);
+
             message += `<br/>${coin}<br/>`;
     
             message += `Open: ${calculations.floatOpen}<br/>`;
@@ -202,9 +206,14 @@ async function main() {
             message += `High: ${calculations.floatHigh}<br/>`;
             message += `Low: ${calculations.floatLow}<br/>`;
             message += `Volume: ${calculations.floatVolume}<br/><br/>`;
-            message += 'ema5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ema10&nbsp;&nbsp;&nbsp;&nbsp;ema20&nbsp;&nbsp;&nbsp;&nbsp;ema30&nbsp;&nbsp;&nbsp;&nbsp;ema40&nbsp;&nbsp;&nbsp;&nbsp;ema50&nbsp;&nbsp;&nbsp;&nbsp;ema60&nbsp;&nbsp;&nbsp;&nbsp;ema100&nbsp;&nbsp;ema200<br/>';
-            message += `${calculations.ema5.toFixed(5)} &nbsp;${calculations.ema10.toFixed(5)} &nbsp;${calculations.ema20.toFixed(5)} &nbsp;${calculations.ema30.toFixed(5)} &nbsp;`;
-            message += `${calculations.ema40.toFixed(5)} &nbsp;${calculations.ema50.toFixed(5)} &nbsp;${calculations.ema60.toFixed(5)} &nbsp;${calculations.ema100.toFixed(5)} &nbsp;${calculations.ema200.toFixed(5)}<br/>`;
+            emas.forEach((ema) => {
+                message += `${ema.period}&nbsp;&nbsp;`;
+            });
+            message += '<br/>';
+            emas.forEach((ema) => {
+                message += `${ema.calc.toFixed(5)}&nbsp;&nbsp;`;
+            });
+            message += '<br/>';
             console.log(calculations);
         })
     }
