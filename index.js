@@ -82,11 +82,11 @@ function calculateAlgorithms(values) {
         ema40 = calcEmaDay(index, 40, ema40, floatClose);
         ema60 = calcEmaDay(index, 60, ema60, floatClose);
 
-        // Calculate for macd. 9 is the signal line
-        ema9 = calcEmaDay(index, 9, ema9, floatClose);
+        // Calculate for macd. ema9 of macd is the signal line
         ema12 = calcEmaDay(index, 12, ema12, floatClose);
         ema26 = calcEmaDay(index, 26, ema26, floatClose);
         macd = ema12 - ema26;
+        ema9 = calcEmaDay(index, 9, ema9, macd);
 
         // Simple moving averages
         sma5 = calcSmaDay(index, 5, values);
