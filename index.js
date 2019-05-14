@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const recipient = 'slimjimmaster@gmail.com';
+const recipient = 'coinflexalerts@gmail.com';
 
 const trackCoins = ['LTCBTC', 'ETHBTC'];//, 'BTCUSDT', 'ADABTC', 'ICXBTC', 'NEOBTC'];
 
