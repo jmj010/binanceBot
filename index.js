@@ -210,20 +210,25 @@ async function main() {
             // PRINT RSI
             message += `RSI: ${calculations.rsi.toFixed(5)} `;
             if (calculations.rsi < 30) {
+                message += '<span style="color:blue;">';
                 if (calculations.rsi < 20) {
                     message += 'EXTREME ';
                 }
-                message += 'OVERSOLD';
+                message += 'OVERSOLD</span>';
             } else if(calculations.rsi > 70) {
+                message += '<span style="color:red;">';
                 if (calculations.rsi > 80) {
                     message += 'EXTREME ';
                 }
-                message += 'OVERBOUGHT';
+                message += 'OVERBOUGHT</span>';
             }
             message += '<br/>';
 
             // MACD
-            message += `MACD: ${calculations.macd.toFixed(5)} SIGNAL: ${calculations.macdSignal.toFixed(5)} ${calculations.macd > calculations.macdSignal ? 'BULLISH' : 'BEARISH'}<br/>`; 
+            message += `MACD: ${calculations.macd.toFixed(5)} SIGNAL: ${calculations.macdSignal.toFixed(5)} ${calculations.macd > calculations.macdSignal ? '<span style="color:blue;">BULLISH' : '<span style="color:red;">BEARISH'}</span><br/>`; 
+
+            // Chaiken Money Flow
+            message += `CMF: ${calculations.cmf.toFixed(5)} ${calculations.cmf > 0 ? '<span style="color:blue;">STRENGTH' : '<span style="color:red;">WEAKNESS'}</span><br/>`;
 
             // PRINT EMA/SMA
             emas.forEach((ema) => {
