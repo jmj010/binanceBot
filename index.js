@@ -208,7 +208,7 @@ async function main() {
             message += `Volume: ${calculations.floatVolume}<br/><br/>`;
 
             // PRINT RSI
-            message += `RSI: ${calculations.rsi} `;
+            message += `RSI: ${calculations.rsi.toFixed(5)} `;
             if (calculations.rsi < 30) {
                 if (calculations.rsi < 20) {
                     message += 'EXTREME ';
@@ -221,6 +221,9 @@ async function main() {
                 message += 'OVERBOUGHT';
             }
             message += '<br/>';
+
+            // MACD
+            message += `MACD: ${calculations.macd.toFixed(5)} SIGNAL: ${calculations.macdSignal.toFixed(5)} ${calculations.macd > calculations.macdSignal ? 'BULLISH' : 'BEARISH'}<br/>`; 
 
             // PRINT EMA/SMA
             emas.forEach((ema) => {
