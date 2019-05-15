@@ -210,6 +210,7 @@ async function main() {
             message += `High: ${calculations.floatHigh}<br/>`;
             message += `Low: ${calculations.floatLow}<br/>`;
             message += `Volume: ${calculations.floatVolume}<br/>`;
+            message += `OBV: ${calculations.obv.toFixed(5)}<br/>`;
             message += `Lower Band: ${calculations.lowerBand.toFixed(5)} Middle Band: ${calculations.middleBand.toFixed(5)} Upper Band: ${calculations.upperBand.toFixed(5)}<br/><br/>`;
 
             // PRINT RSI
