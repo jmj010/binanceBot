@@ -199,6 +199,10 @@ async function main() {
                         { period: "ema_60", calc: calculations.ema60 }, { period: "ema100", calc: calculations.ema100 }, { period: "ema200", calc: calculations.ema200 }];
             emas = emas.sort((a, b) => a.calc > b.calc);
 
+            let smas = [{ period: "sma__5", calc: calculations.sma5 }, { period: "sma_10", calc: calculations.sma10 }, { period: "sma_20", calc: calculations.sma20 },
+            { period: "sma_50", calc: calculations.sma50 }, { period: "sma100", calc: calculations.sma100 }, { period: "sma200", calc: calculations.sma200 }];
+            smas = smas.sort((a, b) => a.calc > b.calc);
+
             message += `<br/>${coin}<br/>`;
     
             message += `Open: ${calculations.floatOpen}<br/>`;
