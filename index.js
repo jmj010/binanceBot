@@ -248,6 +248,15 @@ async function main() {
                 message += `${ema.calc.toFixed(5)}&nbsp;&nbsp;`;
             });
             message += '<br/>';
+            message += '<br/>';
+            smas.forEach((sma) => {
+                message += `${sma.period}&nbsp;&nbsp;`;
+            });
+            message += '<br/>';
+            smas.forEach((sma) => {
+                message += `${sma.calc.toFixed(5)}&nbsp;&nbsp;`;
+            });
+            message += '<br/>';
             console.log(calculations);
         })
     }
