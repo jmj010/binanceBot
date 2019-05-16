@@ -1,3 +1,5 @@
 /node_modules
 package-lock.json
 keyFiles.js
+.DS_Store
+Archive.zip

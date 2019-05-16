@@ -259,4 +259,5 @@ async function main() {
 
 exports.handler = (event, context, callback) => {
     main();
+    callback(null, 'Successfully sent update');
 };
