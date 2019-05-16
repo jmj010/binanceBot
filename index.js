@@ -158,12 +158,10 @@ function sendMailUpdate(message) {
     const yyyy = today.getFullYear();
 
     const mailOptions = {
-        from: 'CoinFlexHelp@email.com', // sender address
+        from: 'CoinFlexHelp@gmail.com', // sender address
         // to: '6194679528@pm.sprint.com', // list of receivers
         to: recipient,
         subject: `ATTN: ${mm}/${dd}/${yyyy} Coin Report`, // Subject line
-        //html: '<p>BUY NEO NOW!</n>Current Price is $102.38</p>'// plain text body
-        // text: 'BUY NEO NOW!'
         html: message
     }
 
@@ -253,11 +251,9 @@ async function main() {
                 message += `${sma.calc.toFixed(5)}&nbsp;&nbsp;`;
             });
             message += '<br/>';
-            console.log(calculations);
         })
     }
 
-    console.log('Message: ', message);
     sendMailUpdate(message);
 }
 
