@@ -1,4 +1,3 @@
-// const Binance = require('binance-api-node').default;
 const AWS = require('aws-sdk');
 const axios = require('axios');
 const nodemailer = require('nodemailer');
@@ -42,10 +41,6 @@ function getBinanceData(startTime, endTime, limit, symbol) {
         })
     });
 };
-
-/*function checkCrossOvers(day5, day10, day20, day50, day100, day200, type) {
-
-}*/
 
 function calculateAlgorithms(values) {
     let ema5 = ema10 = ema20 = ema30 = ema40 = ema50 = ema60 = ema100 = ema200 = 0;
