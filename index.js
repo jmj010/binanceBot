@@ -266,11 +266,6 @@ async function main() {
     sendMailUpdate(message);
 }
 
-main();
-/*
-    Things to do
-    2. What do i need to log? Maybe nothing? Instead send reports to email of coins that have flipped.
-    3. Run and create this report daily
-    4. Create another reading every 5 mins that does special tests against
-    5. Make trades based on readings
-*/
+exports.handler = (event, context, callback) => {
+    main();
+};
