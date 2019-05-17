@@ -12,10 +12,10 @@ const endpoint = binance_endpoint + api + version;
 const limit = 2;
 
 let endTime = new Date().getTime();
-let startTime = endTime - (24 * 60 * 60 * 1000 * limit);
+let startTime = endTime - (1 * 60 * 60 * 1000 * limit);
 
-let endTime2 = endTime - (24 * 60 * 60 * 1000 * limit);
-let startTime2 = startTime - (24 * 60 * 60 * 1000 * limit);
+let endTime2 = endTime - (1 * 60 * 60 * 1000 * limit);
+let startTime2 = startTime - (1 * 60 * 60 * 1000 * limit);
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -165,7 +165,6 @@ async function main() {
         promises.push(getBinanceData(startTime, endTime, limit, coin));
     
         await Promise.all(promises).then((values) => {
-            console.log(values);
             const mergedValues = values[0].concat(values[1]);
             mergedValues.pop(); // Remove the current days values since it is not complete yet
             
