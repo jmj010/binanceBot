@@ -12,10 +12,10 @@ const endpoint = binance_endpoint + api + version;
 const limit = 1000;
 
 let endTime = new Date().getTime();
-let startTime = endTime - (1 * 60 * 60 * 1000 * limit);
+let startTime = endTime - (5 * 60 * 1000 * limit);
 
-let endTime2 = endTime - (1 * 60 * 60 * 1000 * limit);
-let startTime2 = startTime - (1 * 60 * 60 * 1000 * limit);
+let endTime2 = endTime - (5 * 60 * 1000 * limit);
+let startTime2 = startTime - (5 * 60 * 1000 * limit);
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -33,7 +33,7 @@ let message = '';
 
 function getBinanceData(startTime, endTime, limit, symbol) {
     return new Promise((resolve, reject) => {
-        axios.get(endpoint + `/klines?symbol=${symbol}&interval=1h&limit=${limit}&startTime=${startTime}&endTime=${endTime}`).then((res) => {
+        axios.get(endpoint + `/klines?symbol=${symbol}&interval=5m&limit=${limit}&startTime=${startTime}&endTime=${endTime}`).then((res) => {
             resolve(res.data);
         }).catch((err) => {
             console.log('Error: ' + err);
@@ -139,7 +139,7 @@ function sendMailUpdate(message) {
         from: 'CoinFlexHelp@gmail.com', // sender address
         // to: '6194679528@pm.sprint.com', // list of receivers
         to: recipient,
-        subject: `ATTN: ${mm}/${dd}/${yyyy} Hourly Coin Report`, // Subject line
+        subject: `ATTN: ${mm}/${dd}/${yyyy} 5 min Coin Report`, // Subject line
         html: message
     }
 
