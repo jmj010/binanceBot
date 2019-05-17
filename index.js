@@ -9,7 +9,7 @@ const version = '/v1';
 
 const endpoint = binance_endpoint + api + version;
 
-const limit = 1000;
+const limit = 2;
 
 let endTime = new Date().getTime();
 let startTime = endTime - (24 * 60 * 60 * 1000 * limit);
@@ -33,7 +33,7 @@ let message = '';
 
 function getBinanceData(startTime, endTime, limit, symbol) {
     return new Promise((resolve, reject) => {
-        axios.get(endpoint + `/klines?symbol=${symbol}&interval=1d&limit=${limit}&startTime=${startTime}&endTime=${endTime}`).then((res) => {
+        axios.get(endpoint + `/klines?symbol=${symbol}&interval=1h&limit=${limit}&startTime=${startTime}&endTime=${endTime}`).then((res) => {
             resolve(res.data);
         }).catch((err) => {
             console.log('Error: ' + err);
@@ -52,8 +52,6 @@ function calculateAlgorithms(values) {
     let cmf = 0;
     let obv = 0;
     let middleBand = upperBand = lowerBand = sd20 = 0;
-    // Conversion Line = Base Line = Leading Span A = Leading Span B = Lagging Span
-    let kenkanSen = kijunSen = senkouSpanA = senkouSpanB = chikouSpan = 0;
     let floatHigh = floatLow = floatClose = floatOpen = floatVolume = 0;
 
     values.forEach((value, index) => {
@@ -100,21 +98,6 @@ function calculateAlgorithms(values) {
             lowerBand = sma20 - (sd20 * 2);
         }
 
-        // Ichimoku Cloud
-        // Conversion Line (9-period High + 9-period Low) / 2
-        // Base Line (26-period High + 26-period Low) / 2
-        // Leading Span A (Conversion Line + Base Line) / 2
-        // Leading Span B (52-period High + 52-period Low) / 2
-        // Lagging Span Close plotted 26 days in the past
-        if (index > 52) {
-            const cloudResults = calcIchimokuCloud(index, values);
-            kenkanSen = cloudResults.kenkanSen;
-            kijunSen = cloudResults.kijunSen;
-            senkouSpanA = cloudResults.senkouSpanA;
-            senkouSpanB = cloudResults.senkouSpanB;
-            chikouSpan = cloudResults.chikouSpan;``
-        }
-
         // Trend confirmation
         // Calculations for the awesome oscillator. value[2] is the High. value[3] is the Low
         // NOTE: If you want sliding window of values? send for second parameter different sized array. So it calcs earlier
@@ -146,7 +129,6 @@ function calculateAlgorithms(values) {
         sma5, sma10, sma20, sma50, sma100, sma200,
         rsi, macd, macdSignal: ema9, ao, cmf, obv,
         middleBand, upperBand, lowerBand,
-        kenkanSen, kijunSen, senkouSpanA, senkouSpanB, chikouSpan,
         floatOpen, floatClose, floatLow, floatHigh, floatVolume,
     }
 }
@@ -161,7 +143,7 @@ function sendMailUpdate(message) {
         from: 'CoinFlexHelp@gmail.com', // sender address
         // to: '6194679528@pm.sprint.com', // list of receivers
         to: recipient,
-        subject: `ATTN: ${mm}/${dd}/${yyyy} Coin Report`, // Subject line
+        subject: `ATTN: ${mm}/${dd}/${yyyy} 5 min Coin Report`, // Subject line
         html: message
     }
 
@@ -183,6 +165,7 @@ async function main() {
         promises.push(getBinanceData(startTime, endTime, limit, coin));
     
         await Promise.all(promises).then((values) => {
+            console.log(values);
             const mergedValues = values[0].concat(values[1]);
             mergedValues.pop(); // Remove the current days values since it is not complete yet
             
@@ -257,7 +240,10 @@ async function main() {
     sendMailUpdate(message);
 }
 
+main();
+
+/*
 exports.handler = (event, context, callback) => {
     main();
     callback(null, 'Successfully sent update');
-};
+}; */
