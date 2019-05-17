@@ -9,7 +9,7 @@ const version = '/v1';
 
 const endpoint = binance_endpoint + api + version;
 
-const limit = 2;
+const limit = 1000;
 
 let endTime = new Date().getTime();
 let startTime = endTime - (1 * 60 * 60 * 1000 * limit);
@@ -63,11 +63,9 @@ function calculateAlgorithms(values) {
         prevFloatClose = index === 0 ? 0 : parseFloat(values[index - 1][4]);
 
         // Exponential moving averages
-        ema5 = calcEmaDay(index, 5, ema5, floatClose);
         ema10 = calcEmaDay(index, 10, ema10, floatClose);
         ema20 = calcEmaDay(index, 20, ema20, floatClose);
         ema50 = calcEmaDay(index, 50, ema50, floatClose);
-        ema100 = calcEmaDay(index, 100, ema100, floatClose);
         ema200 = calcEmaDay(index, 200, ema200, floatClose);
 
         // EMA Ribbons. Use 10, 20, 30, 40, 50 and 60 day ema lines
@@ -82,11 +80,9 @@ function calculateAlgorithms(values) {
         ema9 = calcEmaDay(index, 9, ema9, macd);
 
         // Simple moving averages
-        sma5 = calcSmaDay(index, 5, values);
         sma10 = calcSmaDay(index, 10, values);
         sma20 = calcSmaDay(index, 20, values);
         sma50 = calcSmaDay(index, 50, values);
-        sma100 = calcSmaDay(index, 100, values);
         sma200 = calcSmaDay(index, 200, values);
 
         // Bollinger Bands - sma with 2 standard deviations above and below.
@@ -143,7 +139,7 @@ function sendMailUpdate(message) {
         from: 'CoinFlexHelp@gmail.com', // sender address
         // to: '6194679528@pm.sprint.com', // list of receivers
         to: recipient,
-        subject: `ATTN: ${mm}/${dd}/${yyyy} 5 min Coin Report`, // Subject line
+        subject: `ATTN: ${mm}/${dd}/${yyyy} Hourly Coin Report`, // Subject line
         html: message
     }
 
@@ -169,13 +165,12 @@ async function main() {
             mergedValues.pop(); // Remove the current days values since it is not complete yet
             
             const calculations = calculateAlgorithms(mergedValues);
-            let emas = [{ period: "ema__5", calc: calculations.ema5 }, { period: "ema_10", calc: calculations.ema10 }, { period: "ema_20", calc: calculations.ema20 },
-                        { period: "ema_30", calc: calculations.ema30 }, { period: "ema_40", calc: calculations.ema40 }, { period: "ema_50", calc: calculations.ema50 },
-                        { period: "ema_60", calc: calculations.ema60 }, { period: "ema100", calc: calculations.ema100 }, { period: "ema200", calc: calculations.ema200 }];
+            let emas = [{ period: "ema_10", calc: calculations.ema10 }, { period: "ema_20", calc: calculations.ema20 },
+                        { period: "ema_50", calc: calculations.ema50 }, { period: "ema200", calc: calculations.ema200 }];
             emas = emas.sort((a, b) => a.calc > b.calc);
 
-            let smas = [{ period: "sma__5", calc: calculations.sma5 }, { period: "sma_10", calc: calculations.sma10 }, { period: "sma_20", calc: calculations.sma20 },
-            { period: "sma_50", calc: calculations.sma50 }, { period: "sma100", calc: calculations.sma100 }, { period: "sma200", calc: calculations.sma200 }];
+            let smas = [{ period: "sma_10", calc: calculations.sma10 }, { period: "sma_20", calc: calculations.sma20 },
+            { period: "sma_50", calc: calculations.sma50 }, { period: "sma200", calc: calculations.sma200 }];
             smas = smas.sort((a, b) => a.calc > b.calc);
 
             message += `<br/>${coin}<br/>`;
