@@ -137,7 +137,7 @@ function sendMailUpdate(message) {
 
     const mailOptions = {
         from: 'CoinFlexHelp@gmail.com', // sender address
-        // to: '6194679528@pm.sprint.com', // list of receivers
+        // to: '6194679528@pm.sprint.com', // list of receiver
         to: recipient,
         subject: `ATTN: ${mm}/${dd}/${yyyy} 5 min Coin Report`, // Subject line
         html: message
